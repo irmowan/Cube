@@ -1,6 +1,7 @@
 /**
  * Created by irmo on 16/11/5.
  */
+
 var scene, camera, renderer;
 var geometry, material, cube;
 
@@ -24,9 +25,14 @@ function init(dimensions) {
       geometry.faces[(2 * d * d) * i + j].color.setHex(colors[i]);
     }
   }
-  material = new THREE.MeshBasicMaterial({color: 0xffffff, vertexColors: THREE.FaceColors, wireframe: true});
+  material = new THREE.MeshBasicMaterial({color: 0xffffff, vertexColors: THREE.FaceColors, wireframe: false});
   cube = new THREE.Mesh(geometry, material);
   scene.add(cube);
+
+  var geo = new THREE.EdgesGeometry(cube.geometry);
+  var mat = new THREE.LineBasicMaterial({color: 0xffffff, linewidth: 2});
+  var wireframe = new THREE.LineSegments(geo, mat);
+  cube.add(wireframe);
 
   renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);
