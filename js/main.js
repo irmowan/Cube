@@ -4,6 +4,8 @@
 
 var scene, camera, renderer;
 var geometry, material, cube;
+var mouse = new THREE.Vector2();
+var raycaster;
 
 var colors = [
   0xffffff,
@@ -46,5 +48,23 @@ function animate() {
   renderer.render(scene, camera);
 }
 
+// function onMouseMove(event) {
+//   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+//   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+// }
+
+function onDocumentMouseDown(event) {
+  raycaster = new THREE.Raycaster();
+  raycaster.setFromCamera(mouse, camera);
+  var intersects = raycaster.intersectObjects(scene.children);
+  for (var i = 0; i < intersects.length; ++i) {
+    console.log('get object');
+    intersects[i].object.material.color.set(0xffffff);
+  }
+  renderer.render(scene, camera);
+}
+
 init();
 animate();
+// window.addEventListener('mousemove', onMouseMove, false);
+window.addEventListener('mousedown', onDocumentMouseDown, false);
