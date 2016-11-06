@@ -48,10 +48,10 @@ function animate() {
   renderer.render(scene, camera);
 }
 
-// function onMouseMove(event) {
-//   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-//   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-// }
+function onMouseMove(event) {
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+}
 
 function onDocumentMouseDown(event) {
   raycaster = new THREE.Raycaster();
@@ -66,5 +66,5 @@ function onDocumentMouseDown(event) {
 
 init();
 animate();
-// window.addEventListener('mousemove', onMouseMove, false);
+window.addEventListener('mousemove', onMouseMove, false);
 window.addEventListener('mousedown', onDocumentMouseDown, false);
