@@ -28,7 +28,7 @@ function init(dimensions) {
       geometry.faces[(2 * d * d) * i + j].color.setHex(colors[i]);
     }
   }
-  material = new THREE.MeshBasicMaterial({color: 0xffffff, vertexColors: THREE.FaceColors, wireframe: true});
+  material = new THREE.MeshBasicMaterial({color: 0xffffff, vertexColors: THREE.FaceColors, wireframe: false});
   cube = new THREE.Mesh(geometry, material);
   scene.add(cube);
 
@@ -58,9 +58,15 @@ function onDocumentMouseDown(event) {
   raycaster = new THREE.Raycaster();
   raycaster.setFromCamera(mouse, camera);
   var intersects = raycaster.intersectObjects(scene.children);
-  for (var i = 0; i < intersects.length; ++i) {
-    console.log('get face: ' + parseInt(intersects[i].faceIndex / (2 * dimensions * dimensions)));
+  if (intersects.length > 0) {
+    var i = 0;
+    var faceIndex = parseInt(intersects[i].faceIndex / (2 * dimensions * dimensions));
     intersects[i].object.material.color.set(0xffffff);
+    var nextColor = colors[parseInt(Math.random() * 6)];
+    intersects[i].object.geometry.faces[faceIndex * 2].color.setHex(nextColor);
+    intersects[i].object.geometry.faces[faceIndex * 2 + 1].color.setHex(nextColor);
+    intersects[i].object.geometry.colorsNeedUpdate = true;
+    console.log('Color of face ' + faceIndex + ' changed.')
   }
   renderer.render(scene, camera);
 }
